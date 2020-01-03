@@ -32,5 +32,7 @@
 *.app
 
 # Other
-*.dSYM
 *.F
+*.dSYM
+*.optrpt
+*__genmod.*
