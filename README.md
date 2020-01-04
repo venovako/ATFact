@@ -33,6 +33,11 @@ Compilation on Intel Xeon Phi (x200) with Intel Fortran:
 make CPU=x200 NDEBUG=3 clean all
 ```
 
+Compilation on Linux with PGI Fortran (*experimental*):
+```bash
+make CPU=pgi NDEBUG=4 clean all
+```
+
 ## Data
 
 Data files (`FN` = File Name, without an extension):
