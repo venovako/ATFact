@@ -28,6 +28,6 @@ DBGFLAGS=-g -Mbounds -Mchkstk -traceback
 DBGFFLAGS=$(DBGFLAGS)
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
-LIBFLAGS=-D_GNU_SOURCE -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -pgf90libs -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
+LIBFLAGS=-D_GNU_SOURCE
+LDFLAGS=-L/opt/pgi/linux86-64-nollvm/19.10/lib -lblas -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

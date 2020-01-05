@@ -5,9 +5,10 @@ The supplementary material for the paper arXiv:[1909.00092](https://arxiv.org/ab
 
 ## Prerequisites
 
-* Intel Math Kernel Library (MKL)
-  - or another BLAS library, with some makefile tweaking required
-* a recent GNU or Intel Fortran compiler
+* Intel Math Kernel Library (MKL), or another [BLAS](https://netlib.org/blas/) library (with some tweaking of the corresponding makefile required)
+  - see `pgi.mk` for an example of using the PGI-provided BLAS
+* a recent Fortran compiler
+  - GNU, Intel, and PGI compilers have been confirmed to work
 
 Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD) repository and build sub-projects `qxblas` and `tgenskew` (in that order).
 
@@ -33,7 +34,7 @@ Compilation on Intel Xeon Phi (x200) with Intel Fortran:
 make CPU=x200 NDEBUG=3 clean all
 ```
 
-Compilation on Linux with PGI Fortran (*experimental*):
+Compilation on Linux with PGI Fortran:
 ```bash
 make CPU=pgi NDEBUG=4 clean all
 ```
@@ -100,8 +101,9 @@ where ``0 <= I <= K``, with `K` as above.  Each eigenvalue list is then used as 
 
 Tested on the following systems:
 * Intel Xeon Phi 7210 CPU running CentOS Linux 7.7.1908 with Intel Fortran and MKL 19.1.0.166
+* Intel Xeon Phi 7210 CPU running CentOS Linux 7.7.1908 with PGI Fortran 19.10 (Community Edition)
 * Intel Core i7-4850HQ CPU running macOS Catalina 10.15.2 with GNU Fortran (Homebrew GCC 9.2.0_3) and Intel MKL 19.0.5.281
 
-The results with `108` dataset are identical on both systems for the generation and the rank detection, although the `F` matrices differ.
+The results with `108` dataset are identical on all systems for the generation and the rank detection, although the `F` matrices differ.
 
 This work has been supported in part by Croatian Science Foundation under the project IP-2014-09-3670 ([MFBDA](https://web.math.pmf.unizg.hr/mfbda/)).
