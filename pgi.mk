@@ -2,7 +2,7 @@ SHELL=/bin/bash
 ARCH=$(shell uname)
 ifneq ($(ARCH),Linux)
 $(error PGI is supported on Linux only)
-endif # Darwin
+endif # !Linux
 ifdef NDEBUG
 DEBUG=
 else # DEBUG
