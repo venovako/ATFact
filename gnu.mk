@@ -8,7 +8,7 @@ endif # ?NDEBUG
 RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
-FC=gfortran
+FC=gfortran$(GNU)
 CPUFLAGS=-DUSE_GNU -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -fopenmp -rdynamic
 FORFLAGS=-cpp $(CPUFLAGS) -ffree-line-length-none -fstack-arrays
 ifeq ($(ARCH),Darwin)
