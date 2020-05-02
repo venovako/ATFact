@@ -1,7 +1,10 @@
 # ATFact
 The anti-triangular factorization of skew-symmetric matrices.
 
-The supplementary material for the paper arXiv:[1909.00092](https://arxiv.org/abs/1909.00092) \[math.NA\].
+This software is a supplementary material for the paper
+[doi:10.1016/j.amc.2020.125263](https://doi.org/10.1016/j.amc.2020.125263 "The antitriangular factorization of skew-symmetric matrices").
+
+The preprint is available at arXiv:[1909.00092](https://arxiv.org/abs/1909.00092 "The antitriangular factorization of skew-symmetric matrices") \[math.NA\].
 
 ## Prerequisites
 
