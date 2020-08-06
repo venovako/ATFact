@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 ARCH=$(shell uname)
 ifneq ($(ARCH),Linux)
-$(error PGI is supported on Linux only)
+$(error NVIDIA HPC SDK is supported on Linux only)
 endif # !Linux
 ifdef NDEBUG
 DEBUG=
@@ -11,8 +11,8 @@ endif # ?NDEBUG
 RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
-FC=pgfortran
-CPUFLAGS=-DUSE_PGI -DUSE_X64 -DOLD_OMP -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -Mnollvm
+FC=nvfortran
+CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -DOLD_OMP -m64 -mp -KPIC -Mframe -Meh_frame -Minfo
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
 FPUFLAGS=-Kieee -Mfma -Mnodaz -Mnoflushz -Mnofpapprox -Mnofprelaxed
 ifdef NDEBUG
@@ -29,5 +29,5 @@ DBGFFLAGS=$(DBGFLAGS)
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE
-LDFLAGS=-L/opt/pgi/linux86-64-nollvm/19.10/lib -lblas -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
+LDFLAGS=-L$(NVCOMPILERS)/Linux_x86_64/20.7/compilers/lib -lblas -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

@@ -9,9 +9,9 @@ The preprint is available at arXiv:[1909.00092](https://arxiv.org/abs/1909.00092
 ## Prerequisites
 
 * Intel Math Kernel Library (MKL), or another [BLAS](https://netlib.org/blas/) library (with some tweaking of the corresponding makefile required)
-  - see `pgi.mk` for an example of using the PGI-provided BLAS
+  - see `nvidia.mk` for an example of using the NVIDIA-provided BLAS
 * a recent Fortran compiler
-  - GNU, Intel, and PGI compilers have been confirmed to work
+  - GNU, Intel, and PGI (now NVIDIA) compilers have been confirmed to work
 
 Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD) repository and build sub-projects `qxblas` and `tgenskew` (in that order).
 
@@ -37,9 +37,9 @@ Compilation on Intel Xeon Phi (x200) with Intel Fortran:
 make CPU=x200 NDEBUG=3 clean all
 ```
 
-Compilation on Linux with PGI Fortran:
+Compilation on Linux with NVIDIA Fortran:
 ```bash
-make CPU=pgi NDEBUG=4 clean all
+make CPU=nvidia NDEBUG=4 clean all
 ```
 
 ## Data
