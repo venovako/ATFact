@@ -12,14 +12,14 @@ FC=ifort
 CPUFLAGS=-DUSE_INTEL -DUSE_X200 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost
+OPTFLAGS=-O$(NDEBUG) -xHost -qopt-zmm-usage=high
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -diag-disable=10397
 DBGFFLAGS=$(DBGFLAGS)
 FPUFLAGS=-fma -fp-model source -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high -fimf-use-svml=true
 FPUFFLAGS=$(FPUFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -xHost
+OPTFLAGS=-O0 -xHost -qopt-zmm-usage=high
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -diag-disable=10397
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
