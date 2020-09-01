@@ -1,15 +1,15 @@
-ifndef CPU
-CPU=gnu
-endif # !CPU
-include $(CPU).mk
-MKFS=GNUmakefile $(CPU).mk
+ifndef COMPILER
+COMPILER=gnu
+endif # !COMPILER
+include $(COMPILER).mk
+MKFS=GNUmakefile $(COMPILER).mk
 
 .PHONY: all help clean
 
 all: tatf.exe tatp.exe ttol.exe gen108.exe
 
 help:
-	@echo "make [CPU=x64|x200|gnu] [NDEBUG=0|1|2|3|4|5] [all|clean|help]"
+	@echo "make [COMPILER=gnu|x64|x200|nvidia] [NDEBUG=0|1|2|3|4|5] [all|clean|help]"
 
 tatf.exe: tatf.o atf.o bio.o $(MKFS)
 	$(FC) $(FFLAGS) -o $@ $< atf.o bio.o $(LDFLAGS)

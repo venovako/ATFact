@@ -29,17 +29,17 @@ make NDEBUG=3 clean all
 
 Compilation on Linux/macOS with Intel Fortran:
 ```bash
-make CPU=x64 NDEBUG=3 clean all
+make COMPILER=x64 NDEBUG=3 clean all
 ```
 
 Compilation on Intel Xeon Phi (x200) with Intel Fortran:
 ```bash
-make CPU=x200 NDEBUG=3 clean all
+make COMPILER=x200 NDEBUG=3 clean all
 ```
 
 Compilation on Linux with NVIDIA Fortran:
 ```bash
-make CPU=nvidia NDEBUG=4 clean all
+make COMPILER=nvidia NDEBUG=4 clean all
 ```
 
 ## Data

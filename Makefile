@@ -1,17 +1,12 @@
-!IFNDEF RM
-RM=del /F
-!ENDIF # !RM
-
 !IFDEF NDEBUG
 DEBUG=
 !ELSE # DEBUG
 DEBUG=d
 !ENDIF # ?NDEBUG
-
+RM=del /F
 AR=xilib.exe
 ARFLAGS=-qnoipo -lib /NOLOGO /VERBOSE
 FC=ifort
-
 FORFLAGS=/nologo /fpp /DUSE_INTEL /DUSE_X64 /DOLD_OMP /Qopenmp /standard-semantics
 !IFDEF NDEBUG
 OPTFLAGS=/O$(NDEBUG) /QxHost
