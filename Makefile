@@ -7,7 +7,7 @@ RM=del /F
 AR=xilib.exe
 ARFLAGS=-qnoipo -lib /NOLOGO /VERBOSE
 FC=ifort
-FORFLAGS=/nologo /fpp /DUSE_INTEL /DUSE_X64 /DOLD_OMP /Qopenmp /standard-semantics
+FORFLAGS=/nologo /fpp /DUSE_INTEL /DUSE_X64 /Qopenmp /standard-semantics
 !IFDEF NDEBUG
 OPTFLAGS=/O$(NDEBUG) /QxHost
 DBGFLAGS=/DNDEBUG /Qopt-report:5 /traceback

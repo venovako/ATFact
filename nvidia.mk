@@ -12,7 +12,7 @@ RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
 FC=nvfortran
-CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -DOLD_OMP -m64 -mp -KPIC -Mframe -Meh_frame -Minfo
+CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
 FPUFLAGS=-Kieee -Mfma -Mnodaz -Mnoflushz -Mnofpapprox -Mnofprelaxed
 ifdef NDEBUG
