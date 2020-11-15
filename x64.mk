@@ -5,19 +5,37 @@ DEBUG=
 else # DEBUG
 DEBUG=g
 endif # ?NDEBUG
+ifndef FP
+ifdef NDEBUG
+FP=source
+else # DEBUG
+FP=strict
+endif # ?NDEBUG
+endif # !FP
 RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
 FC=ifort
 CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
+ifneq ($(ARCH),Darwin)
+CPUFLAGS += -qopenmp-threadprivate=compat
+endif # Linux
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
+FPUFLAGS=-fp-model $(FP) -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high
+ifeq ($(FP),strict)
+FPUFLAGS += -fp-stack-check -fimf-arch-consistency=true
+else # !strict
+FPUFLAGS += -fimf-use-svml=true
+endif # ?strict
+FPUFFLAGS=$(FPUFLAGS)
+ifeq ($(FP),strict)
+FPUFFLAGS += -assume ieee_fpe_flags
+endif # strict
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG) -xHost -qopt-zmm-usage=high
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -diag-disable=10397
 DBGFFLAGS=$(DBGFLAGS)
-FPUFLAGS=-fma -fp-model source -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high -fimf-use-svml=true
-FPUFFLAGS=$(FPUFLAGS)
 else # DEBUG
 OPTFLAGS=-O0 -xHost -qopt-zmm-usage=high
 OPTFFLAGS=$(OPTFLAGS)
@@ -26,8 +44,6 @@ ifneq ($(ARCH),Darwin)
 DBGFLAGS += -debug parallel
 endif # !Darwin
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
-FPUFLAGS=-fp-model strict -fp-stack-check -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high
-FPUFFLAGS=$(FPUFLAGS) -assume ieee_fpe_flags
 endif # ?NDEBUG
 LIBFLAGS=-DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
 ifeq ($(ARCH),Darwin)
