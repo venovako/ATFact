@@ -11,13 +11,13 @@ FORFLAGS=/nologo /fpp /DUSE_INTEL /DUSE_X64 /Qopenmp /standard-semantics
 !IFDEF NDEBUG
 OPTFLAGS=/O$(NDEBUG) /QxHost
 DBGFLAGS=/DNDEBUG /Qopt-report:5 /traceback
-FPUFLAGS=/Qfma /fp:source /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt
+FPUFLAGS=/fp:source /Qfma /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt
 LIBFLAGS=/Qmkl /libs:dll /threads
 LDFLAGS=/link /RELEASE
 !ELSE # DEBUG
 OPTFLAGS=/O$(DEBUG) /QxHost
 DBGFLAGS=/debug:full /debug:inline-debug-info /debug-parameters:all /check:all /warn:all /traceback
-FPUFLAGS=/Qfma /fp:source /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt #/fp:strict /assume:ieee_fpe_flags /Qfp-stack-check
+FPUFLAGS=/fp:source /Qfma /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt #/fp:strict /assume:ieee_fpe_flags /Qfp-stack-check
 LIBFLAGS=/Qmkl /libs:dll /threads /dbglibs
 LDFLAGS=/link /DEBUG
 !ENDIF # ?NDEBUG
