@@ -7,7 +7,7 @@ DEBUG=g
 endif # ?NDEBUG
 ifndef FP
 ifdef NDEBUG
-FP=source
+FP=precise
 else # DEBUG
 FP=strict
 endif # ?NDEBUG
@@ -18,9 +18,9 @@ ARFLAGS=-qnoipo -lib rsv
 FC=ifort
 CPUFLAGS=-DUSE_INTEL -DUSE_X200 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
-FPUFLAGS=-fp-model $(FP) -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fimf-precision=high
+FPUFLAGS=-fp-model $(FP) -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt
 ifeq ($(FP),strict)
-FPUFLAGS += -fp-stack-check -fimf-arch-consistency=true
+FPUFLAGS += -fp-stack-check
 else # !strict
 FPUFLAGS += -fimf-use-svml=true
 endif # ?strict
