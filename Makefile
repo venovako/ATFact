@@ -9,13 +9,13 @@ ARFLAGS=-qnoipo -lib /NOLOGO /VERBOSE
 FC=ifort
 FORFLAGS=/nologo /fpp /DUSE_INTEL /DUSE_X64 /Qopenmp /standard-semantics
 !IFDEF NDEBUG
-OPTFLAGS=/O$(NDEBUG) /QxHost
+OPTFLAGS=/O$(NDEBUG) /QxHost /Qopt-multi-version-aggressive
 DBGFLAGS=/DNDEBUG /Qopt-report:5 /traceback
 FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt /Qimf-use-svml:true
 LIBFLAGS=/Qmkl /libs:dll /threads
 LDFLAGS=/link /RELEASE
 !ELSE # DEBUG
-OPTFLAGS=/O$(DEBUG) /QxHost
+OPTFLAGS=/O$(DEBUG) /QxHost /Qopt-multi-version-aggressive
 DBGFLAGS=/debug:full /debug:inline-debug-info /debug-parameters:all /check:all /warn:all /traceback
 FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz- /Qcomplex-limited-range- /Qfast-transcendentals- /Qprec-div /Qprec-sqrt /Qfp-stack-check #/fp:strict /assume:ieee_fpe_flags
 LIBFLAGS=/Qmkl /libs:dll /threads /dbglibs

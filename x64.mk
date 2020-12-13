@@ -29,12 +29,12 @@ ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost
+OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -diag-disable=10397
 DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -xHost
+OPTFLAGS=-O0 -xHost -qopt-multi-version-aggressive
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback -diag-disable=10397
 ifneq ($(ARCH),Darwin)
