@@ -39,6 +39,6 @@ OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -diag-disable=10397
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
 endif # ?NDEBUG
-LIBFLAGS=-D_GNU_SOURCE -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+LIBFLAGS=-static-libgcc -D_GNU_SOURCE -DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
 LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
