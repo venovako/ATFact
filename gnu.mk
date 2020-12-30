@@ -1,5 +1,8 @@
 SHELL=/bin/bash
 ARCH=$(shell uname)
+ifndef ABI
+ABI=lp64
+endif # !ABI
 ifdef NDEBUG
 DEBUG=
 else # DEBUG
@@ -11,6 +14,9 @@ ARFLAGS=rsv
 FC=gfortran$(GNU)
 CPUFLAGS=-DUSE_GNU -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -fopenmp -rdynamic
 FORFLAGS=-cpp $(CPUFLAGS) -ffree-line-length-none -fstack-arrays
+ifeq ($(ABI),ilp64)
+FORFLAGS += -fdefault-integer-8
+endif # ilp64
 ifeq ($(ARCH),Darwin)
 OPTFLAGS += -Wa,-q
 endif # ?Darwin
@@ -29,12 +35,16 @@ DBGFFLAGS=$(DBGFLAGS) -fcheck=all -finit-local-zero -finit-real=snan -finit-deri
 FPUFLAGS=-ffp-contract=fast
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
-LIBFLAGS=-DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+LIBFLAGS=-DUSE_MKL
+ifeq ($(ABI),ilp64)
+LIBFLAGS += -DMKL_ILP64
+endif # ilp64
+LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
 ifeq ($(ARCH),Darwin)
-LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -L${MKLROOT}/../compiler/lib -Wl,-rpath,${MKLROOT}/../compiler/lib -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -L${MKLROOT}/../compiler/lib -Wl,-rpath,${MKLROOT}/../compiler/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 else # Linux
 LIBFLAGS += -D_GNU_SOURCE
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core
+LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_gf_$(ABI) -lmkl_sequential -lmkl_core
 endif # ?Darwin
 LDFLAGS += -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

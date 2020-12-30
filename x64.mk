@@ -1,5 +1,8 @@
 SHELL=/bin/bash
 ARCH=$(shell uname)
+ifndef ABI
+ABI=lp64
+endif # !ABI
 ifdef NDEBUG
 DEBUG=
 else # DEBUG
@@ -18,6 +21,9 @@ ARFLAGS=-qnoipo -lib rsv
 FC=ifort
 CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
+ifeq ($(ABI),ilp64)
+FORFLAGS += -i8
+endif # ilp64
 FPUFLAGS=-fp-model $(FP) -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt
 ifeq ($(FP),strict)
 FPUFLAGS += -fp-stack-check
@@ -42,12 +48,16 @@ DBGFLAGS += -debug parallel
 endif # !Darwin
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
 endif # ?NDEBUG
-LIBFLAGS=-DUSE_MKL -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+LIBFLAGS=-DUSE_MKL
+ifeq ($(ABI),ilp64)
+LIBFLAGS += -DMKL_ILP64
+endif # ilp64
+LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
 ifeq ($(ARCH),Darwin)
-LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 else # Linux
 LIBFLAGS += -static-libgcc -D_GNU_SOURCE
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core
+LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 endif # ?Darwin
 LDFLAGS += -lpthread -lm -ldl
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

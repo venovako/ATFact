@@ -1,8 +1,8 @@
 SHELL=/bin/bash
 ARCH=$(shell uname)
-ifneq ($(ARCH),Linux)
-$(error NVIDIA HPC SDK is supported on Linux only)
-endif # !Linux
+ifndef ABI
+ABI=lp64
+endif # !ABI
 ifdef NDEBUG
 DEBUG=
 else # DEBUG
@@ -14,6 +14,10 @@ ARFLAGS=rsv
 FC=nvfortran
 CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
+ifeq ($(ABI),ilp64)
+#FORFLAGS += -i8
+$(error ABI=ilp64 is not supported)
+endif # ilp64
 FPUFLAGS=-Kieee -Mfma -Mnodaz -Mnoflushz -Mnofpapprox -Mnofprelaxed
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG)
