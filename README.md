@@ -30,6 +30,10 @@ Compilation on Linux/macOS with Intel Fortran:
 ```bash
 make COMPILER=x64 NDEBUG=3 clean all
 ```
+or, with the newer compilers on Linux,
+```bash
+make COMPILER=x64x NDEBUG=3 clean all
+```
 
 Compilation on Intel Xeon Phi (x200) with Intel Fortran:
 ```bash

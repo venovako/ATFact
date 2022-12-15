@@ -35,4 +35,5 @@
 *.F
 *.dSYM
 *.optrpt
+*.opt.yaml
 *__genmod.*
