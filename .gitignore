@@ -36,4 +36,5 @@
 *.dSYM
 *.optrpt
 *.opt.yaml
+*.pdb
 *__genmod.*
