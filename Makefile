@@ -23,7 +23,7 @@ LIBS=/LIBPATH:"$(MKLROOT)\lib\intel64_win" mkl_intel_$(ABI)_dll.lib mkl_intel_th
 !IFDEF NDEBUG
 OPTFLAGS=/O$(NDEBUG) /QxHost /Qvec-threshold:0
 DBGFLAGS=/DNDEBUG /traceback
-FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz- /Qimf-use-svml:true
+FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz-
 !IF "$(FORT)"=="ifort"
 OPTFLAGS=$(OPTFLAGS) /Qopt-multi-version-aggressive
 DBGFLAGS=$(DBGFLAGS) /Qopt-report:5
