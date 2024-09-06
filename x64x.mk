@@ -33,22 +33,13 @@ DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
 OPTFLAGS=-O0 -xHost
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback
-ifneq ($(ARCH),Darwin)
-DBGFLAGS += -debug parallel
-endif # !Darwin
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel -traceback
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
 endif # ?NDEBUG
 LIBFLAGS=-DUSE_MKL
 ifeq ($(ABI),ilp64)
 LIBFLAGS += -DMKL_ILP64
 endif # ilp64
-LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
-ifeq ($(ARCH),Darwin)
-LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
-else # Linux
-LIBFLAGS += -static-libgcc -D_GNU_SOURCE
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
-endif # ?Darwin
-LDFLAGS += -lpthread -lm -ldl
+LIBFLAGS += -static-libgcc -D_GNU_SOURCE -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
+LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core -lpthread -lm -ldl
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

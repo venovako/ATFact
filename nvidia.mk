@@ -32,5 +32,5 @@ DBGFFLAGS=$(DBGFLAGS)
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE
-LDFLAGS=-L$(NVCOMPILERS)/Linux_x86_64/24.7/compilers/lib -lblas_$(ABI) -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
+LDFLAGS=-lblas_$(ABI) -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
