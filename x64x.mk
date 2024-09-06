@@ -20,7 +20,7 @@ FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-fp-model $(FP) -fma -fprotect-parens -no-ftz
+FPUFLAGS=-fp-model=$(FP) -fma -fprotect-parens -no-ftz
 FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags

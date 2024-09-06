@@ -9,44 +9,37 @@ else # DEBUG
 DEBUG=g
 endif # ?NDEBUG
 ifndef FP
-ifdef NDEBUG
 FP=precise
-else # DEBUG
-FP=strict
-endif # ?NDEBUG
 endif # !FP
 RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
-FC=ifort
-CPUFLAGS=-DUSE_INTEL -DUSE_X200 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
+FC=ifx
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-fp-model $(FP) -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt
-ifeq ($(FP),strict)
-FPUFLAGS += -fp-stack-check
-endif # ?strict
+FPUFLAGS=-fp-model=$(FP) -fma -fprotect-parens -no-ftz
 FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive -qopt-zmm-usage=high -vec-threshold0
+OPTFLAGS=-O$(NDEBUG) -xcommon-avx512 -vec-threshold0
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -diag-disable=10397
+DBGFLAGS=-DNDEBUG -qopt-report=3 -traceback
 DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -xHost -qopt-multi-version-aggressive -qopt-zmm-usage=high
+OPTFLAGS=-O0 -xcommon-avx512
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug parallel -debug pubnames -traceback -diag-disable=10397
+DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel -traceback
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all
 endif # ?NDEBUG
-LIBFLAGS=-static-libgcc -D_GNU_SOURCE -DUSE_MKL
+LIBFLAGS=-DUSE_MKL
 ifeq ($(ABI),ilp64)
 LIBFLAGS += -DMKL_ILP64
 endif # ilp64
-LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lmemkind
+LIBFLAGS += -static-libgcc -D_GNU_SOURCE -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
+LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core -lpthread -lm -ldl
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)

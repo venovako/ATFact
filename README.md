@@ -10,7 +10,7 @@ doi:[10.1016/j.amc.2020.125263](https://doi.org/10.1016/j.amc.2020.125263 "The a
 * Intel Math Kernel Library (MKL), or another [BLAS](https://netlib.org/blas/) library (with some tweaking of the corresponding makefile required)
   - see `nvidia.mk` for an example of using the NVIDIA-provided BLAS
 * a recent Fortran compiler
-  - GNU, Intel, and PGI (now NVIDIA) compilers have been confirmed to work
+  - GNU, Intel, and NVIDIA compilers have been confirmed to work
 
 Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD) repository and build sub-projects `qxblas` and `tgenskew` (in that order).
 
@@ -26,11 +26,7 @@ Compilation on Linux/macOS with GNU Fortran:
 make NDEBUG=3 clean all
 ```
 
-Compilation on Linux/macOS with Intel Fortran:
-```bash
-make COMPILER=x64 NDEBUG=3 clean all
-```
-or, with the newer compilers on Linux,
+Compilation on Linux with Intel Fortran:
 ```bash
 make COMPILER=x64x NDEBUG=3 clean all
 ```
