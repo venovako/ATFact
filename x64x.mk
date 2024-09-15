@@ -20,18 +20,21 @@ FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-fp-model=$(FP) -fma -fprotect-parens -no-ftz
+FPUFLAGS=-fp-model=$(FP) -fma -fprotect-parens -no-ftz -fimf-precision=high 
 FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
+ifndef CPU
+CPU=Host
+endif # !CPU
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost
+OPTFLAGS=-O$(NDEBUG) -x$(CPU)
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=3
 DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -xHost
+OPTFLAGS=-O0 -x$(CPU)
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all

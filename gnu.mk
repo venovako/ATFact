@@ -20,15 +20,18 @@ endif # ilp64
 ifeq ($(ARCH),Darwin)
 OPTFLAGS += -Wa,-q
 endif # ?Darwin
+ifndef CPU
+CPU=native
+endif # !CPU
 ifdef NDEBUG
-OPTFLAGS += -O$(NDEBUG) -march=native -fgcse-las -fgcse-sm -fipa-pta -ftree-loop-distribution -ftree-loop-im -ftree-loop-ivcanon -fivopts -fvect-cost-model=unlimited -fvariable-expansion-in-unroller
+OPTFLAGS += -O$(NDEBUG) -march=$(CPU) -fgcse-las -fgcse-sm -fipa-pta -ftree-loop-distribution -ftree-loop-im -ftree-loop-ivcanon -fivopts -fvect-cost-model=unlimited -fvariable-expansion-in-unroller
 DBGFLAGS=-DNDEBUG -fopt-info-optimized-vec -pedantic -Wall -Wextra
 OPTFFLAGS=$(OPTFLAGS)
 DBGFFLAGS=$(DBGFLAGS) -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all
 FPUFLAGS=-ffp-contract=fast
 FPUFFLAGS=$(FPUFLAGS)
 else # DEBUG
-OPTFLAGS += -O$(DEBUG) -march=native
+OPTFLAGS += -O$(DEBUG) -march=$(CPU)
 DBGFLAGS=-$(DEBUG) -pedantic -Wall -Wextra
 OPTFFLAGS=$(OPTFLAGS)
 DBGFFLAGS=$(DBGFLAGS) -fcheck=all -finit-local-zero -finit-real=snan -finit-derived -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all
