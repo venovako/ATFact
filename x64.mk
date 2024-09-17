@@ -19,7 +19,10 @@ RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
 FC=ifort
-CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -rdynamic
+ifndef CPU
+CPU=Host
+endif # !CPU
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -x$(CPU) -qopt-multi-version-aggressive -qopt-zmm-usage=high -vec-threshold0 -traceback
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
@@ -32,15 +35,16 @@ FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
+DBGFLAGS=-diag-disable=10397,10441
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -xHost -qopt-multi-version-aggressive -vec-threshold0
+OPTFLAGS=-O$(NDEBUG)
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-DNDEBUG -qopt-report=5 -traceback -diag-disable=10397
+DBGFLAGS += -DNDEBUG -qopt-report=5
 DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -xHost -qopt-multi-version-aggressive
+OPTFLAGS=-O0
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -traceback -diag-disable=10397
+DBGFLAGS += -$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames
 ifneq ($(ARCH),Darwin)
 DBGFLAGS += -debug parallel
 endif # !Darwin
@@ -51,11 +55,12 @@ ifeq ($(ABI),ilp64)
 LIBFLAGS += -DMKL_ILP64
 endif # ilp64
 LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
+LDFLAGS=-rdynamic
 ifeq ($(ARCH),Darwin)
-LDFLAGS=-L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
+LDFLAGS += -L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 else # Linux
-LIBFLAGS += -static-libgcc -D_GNU_SOURCE
-LDFLAGS=-L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
+LIBFLAGS += -D_GNU_SOURCE
+LDFLAGS += -static-libgcc -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 endif # ?Darwin
 LDFLAGS += -lpthread -lm -ldl
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
