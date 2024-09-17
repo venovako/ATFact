@@ -27,6 +27,7 @@ FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
 ifndef CPU
 CPU=Host
+# common-avx512 for KNLs
 endif # !CPU
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG)
