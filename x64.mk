@@ -28,7 +28,7 @@ FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-fp-model $(FP) -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt -fno-math-errno
+FPUFLAGS=-fp-model $(FP) -fprotect-parens -fma -no-ftz -no-complex-limited-range -no-fast-transcendentals -prec-div -prec-sqrt
 ifeq ($(FP),strict)
 FPUFLAGS += -fp-stack-check
 endif # ?strict
@@ -38,7 +38,7 @@ FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
 DBGFLAGS=-diag-disable=10397,10441
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG)
+OPTFLAGS=-O$(NDEBUG) -fno-math-errno -inline-level=2
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS += -DNDEBUG -qopt-report=5
 DBGFFLAGS=$(DBGFLAGS)

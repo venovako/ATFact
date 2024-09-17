@@ -15,7 +15,10 @@ RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
 FC=ifx
-CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -vec-threshold0 -traceback
+ifndef CPU
+CPU=common-avx512
+endif # !CPU
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -x$(CPU) -vec-threshold0 -traceback
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
@@ -25,16 +28,13 @@ FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
-ifndef CPU
-CPU=common-avx512
-endif # !CPU
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG) -x$(CPU)
+OPTFLAGS=-O$(NDEBUG) -fno-math-errno -inline-level=2
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=3
 DBGFFLAGS=$(DBGFLAGS)
 else # DEBUG
-OPTFLAGS=-O0 -x$(CPU)
+OPTFLAGS=-O0
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-$(DEBUG) -debug emit_column -debug extended -debug inline-debug-info -debug pubnames -debug parallel
 DBGFFLAGS=$(DBGFLAGS) -debug-parameters all -check all -warn all

@@ -20,7 +20,7 @@ FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-fp-model=$(FP) -fp-speculation=safe -fimf-precision=high -fma -fprotect-parens -no-ftz -fno-math-errno
+FPUFLAGS=-fp-model=$(FP) -fp-speculation=safe -fimf-precision=high -fma -fprotect-parens -no-ftz
 FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
@@ -30,7 +30,7 @@ CPU=Host
 # common-avx512 for KNLs
 endif # !CPU
 ifdef NDEBUG
-OPTFLAGS=-O$(NDEBUG)
+OPTFLAGS=-O$(NDEBUG) -fno-math-errno -inline-level=2
 OPTFFLAGS=$(OPTFLAGS)
 DBGFLAGS=-DNDEBUG -qopt-report=3
 DBGFFLAGS=$(DBGFLAGS)
