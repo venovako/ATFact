@@ -15,12 +15,12 @@ FC=nvfortran
 ifndef CPU
 CPU=native
 endif # !CPU
-CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(CPU) -traceback
+CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(CPU) -nvmalloc -traceback
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
 endif # ilp64
-FPUFLAGS=-Kieee -Mfma -Mnodaz -Mnoflushz -Mnofpapprox -Mnofprelaxed
+FPUFLAGS=-Kieee -Mfma -Mnodaz -Mnoflushz -Mnofpapprox -Mnofprelaxed -Mno-recip-div
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG)
 OPTFFLAGS=$(OPTFLAGS)
