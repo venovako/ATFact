@@ -15,7 +15,7 @@ FC=nvfortran
 ifndef CPU
 CPU=native
 endif # !CPU
-CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(CPU)
+CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(CPU) -traceback
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
@@ -30,10 +30,10 @@ FPUFFLAGS=$(FPUFLAGS)
 else # DEBUG
 OPTFLAGS=-O0
 OPTFFLAGS=$(OPTFLAGS)
-DBGFLAGS=-g -Mbounds -Mchkstk -traceback
+DBGFLAGS=-g -Mbounds -Mchkstk
 DBGFFLAGS=$(DBGFLAGS)
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE
-LDFLAGS=-lblas_$(ABI) -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
+LDFLAGS=-Wl,-E -lblas_$(ABI) -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
