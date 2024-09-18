@@ -12,10 +12,10 @@ RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
 FC=nvfortran
-ifndef CPU
-CPU=native
-endif # !CPU
-CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(CPU) -nvmalloc -traceback
+ifndef MARCH
+MARCH=native
+endif # !MARCH
+CPUFLAGS=-DUSE_NVIDIA -DUSE_X64 -m64 -mp -KPIC -Mframe -Meh_frame -Minfo -tp=$(MARCH) -nvmalloc -traceback
 FORFLAGS=$(CPUFLAGS) -Mdclchk -Mlarge_arrays -Mrecursive -Mstack_arrays
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8

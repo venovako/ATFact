@@ -15,10 +15,10 @@ RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
 FC=ifx
-ifndef CPU
-CPU=common-avx512
-endif # !CPU
-CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -x$(CPU) -vec-threshold0 -traceback
+ifndef MARCH
+MARCH=common-avx512
+endif # !MARCH
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -qopenmp -x$(MARCH) -vec-threshold0 -traceback
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8

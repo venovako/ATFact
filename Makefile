@@ -18,14 +18,17 @@ FORFLAGS=$(FORFLAGS) /4I8
 LIBFLAGS=$(LIBFLAGS) /DMKL_ILP64
 !ENDIF # ilp64
 LIBS=/LIBPATH:"$(MKLROOT)\lib\intel64_win" mkl_intel_$(ABI)_dll.lib mkl_intel_thread_dll.lib mkl_core_dll.lib
+!IFNDEF MARCH
+MARCH=Host
+!ENDIF # !MARCH
 !IFDEF NDEBUG
-OPTFLAGS=/O$(NDEBUG) /QxHost /Qvec-threshold:0
+OPTFLAGS=/O$(NDEBUG) /Qx$(MARCH) /Qvec-threshold:0
 DBGFLAGS=/DNDEBUG /traceback
 FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz-
 DBGFLAGS=$(DBGFLAGS) /Qopt-report:3
 LDFLAGS=/link /RELEASE $(LIBS)
 !ELSE # DEBUG
-OPTFLAGS=/O$(DEBUG) /QxHost
+OPTFLAGS=/O$(DEBUG) /Qx$(MARCH)
 DBGFLAGS=/debug:full /debug:inline-debug-info /debug-parameters:all /check:all /warn:all /traceback
 FPUFLAGS=/fp:precise /Qprotect-parens /Qfma /Qftz- #/fp:strict /assume:ieee_fpe_flags
 LIBFLAGS=$(LIBFLAGS) /dbglibs
@@ -36,7 +39,7 @@ FFLAGS=$(OPTFLAGS) $(DBGFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFLAGS)
 all: tatf.exe tatp.exe ttol.exe gen108.exe
 
 help:
-	@echo "nmake.exe [NDEBUG=0|1|2|3|4|5] [ABI=lp64|ilp64] [all|clean|help]"
+	@echo "nmake.exe [NDEBUG=optimization_level] [ABI=lp64|ilp64] [all|clean|help]"
 
 tatf.exe: tatf.obj atf.obj bio.obj Makefile
 	$(FC) $(FFLAGS) /Fe$@ tatf.obj atf.obj bio.obj $(LDFLAGS)

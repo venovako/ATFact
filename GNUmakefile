@@ -9,7 +9,7 @@ MKFS=GNUmakefile $(COMPILER).mk
 all: tatf.exe tatp.exe ttol.exe gen108.exe
 
 help:
-	@echo "make [COMPILER=gnu|x64x|x200|x64|nvidia] [CPU=...] [NDEBUG=optimization_level] [ABI=ilp64|lp64] [all|clean|help]"
+	@echo "make [COMPILER=gnu|x64x|x200|x64|nvidia] [MARCH=...] [NDEBUG=optimization_level] [ABI=ilp64|lp64] [all|clean|help]"
 
 tatf.exe: tatf.o atf.o bio.o $(MKFS)
 	$(FC) $(FFLAGS) -o $@ $< atf.o bio.o $(LDFLAGS)

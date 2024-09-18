@@ -20,18 +20,22 @@ endif # ilp64
 ifeq ($(ARCH),Darwin)
 OPTFLAGS += -Wa,-q
 endif # ?Darwin
-ifndef CPU
-CPU=native
-endif # !CPU
+ifndef MARCH
+ifeq ($(shell uname -m),ppc64le)
+MARCH=mcpu=native
+else # !ppc64le
+MARCH=march=native
+endif # ?ppc64le
+endif # !MARCH
 ifdef NDEBUG
-OPTFLAGS += -O$(NDEBUG) -march=$(CPU) -fno-math-errno
+OPTFLAGS += -O$(NDEBUG) -$(MARCH) -fno-math-errno
 DBGFLAGS=-DNDEBUG -pedantic -Wall -Wextra
 OPTFFLAGS=$(OPTFLAGS)
 DBGFFLAGS=$(DBGFLAGS) -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all
 FPUFLAGS=-ffp-contract=fast
 FPUFFLAGS=$(FPUFLAGS)
 else # DEBUG
-OPTFLAGS += -O$(DEBUG) -march=$(CPU)
+OPTFLAGS += -O$(DEBUG) -$(MARCH)
 DBGFLAGS=-$(DEBUG) -pedantic -Wall -Wextra
 OPTFFLAGS=$(OPTFLAGS)
 DBGFFLAGS=$(DBGFLAGS) -fcheck=all -finit-local-zero -finit-real=snan -finit-derived -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all

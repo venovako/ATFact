@@ -15,7 +15,11 @@ RM=rm -rfv
 AR=xiar
 ARFLAGS=-qnoipo -lib rsv
 FC=ifx
-CPUFLAGS=-DUSE_INTEL -DUSE_X64 -mprefer-vector-width=512 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -qopenmp -x$(CPU) -vec-threshold0 -traceback
+ifndef MARCH
+MARCH=Host
+# common-avx512 for KNLs
+endif # !MARCH
+CPUFLAGS=-DUSE_INTEL -DUSE_X64 -mprefer-vector-width=512 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -qopenmp -x$(MARCH) -vec-threshold0 -traceback
 FORFLAGS=$(CPUFLAGS) -standard-semantics -threads
 ifeq ($(ABI),ilp64)
 FORFLAGS += -i8
@@ -25,10 +29,6 @@ FPUFFLAGS=$(FPUFLAGS)
 ifeq ($(FP),strict)
 FPUFFLAGS += -assume ieee_fpe_flags
 endif # strict
-ifndef CPU
-CPU=Host
-# common-avx512 for KNLs
-endif # !CPU
 ifdef NDEBUG
 OPTFLAGS=-O$(NDEBUG) -fno-math-errno -inline-level=2
 OPTFFLAGS=$(OPTFLAGS)
