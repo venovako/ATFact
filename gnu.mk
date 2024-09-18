@@ -12,7 +12,7 @@ RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
 FC=gfortran$(GNU)
-CPUFLAGS=-DUSE_GNU -DUSE_X64 -fPIC -fexceptions -fno-omit-frame-pointer -fopenmp
+CPUFLAGS=-DUSE_GNU -DUSE_X64 -fPIC -fexceptions -fasynchronous-unwind-tables -fno-omit-frame-pointer -fopenmp -fvect-cost-model=unlimited
 FORFLAGS=-cpp $(CPUFLAGS) -ffree-line-length-none -fstack-arrays
 ifeq ($(ABI),ilp64)
 FORFLAGS += -fdefault-integer-8
@@ -24,8 +24,8 @@ ifndef CPU
 CPU=native
 endif # !CPU
 ifdef NDEBUG
-OPTFLAGS += -O$(NDEBUG) -march=$(CPU) -fgcse-las -fgcse-sm -fipa-pta -ftree-loop-distribution -ftree-loop-im -ftree-loop-ivcanon -fivopts -fvect-cost-model=unlimited -fvariable-expansion-in-unroller
-DBGFLAGS=-DNDEBUG -fopt-info-optimized-vec -pedantic -Wall -Wextra
+OPTFLAGS += -O$(NDEBUG) -march=$(CPU) -fno-math-errno
+DBGFLAGS=-DNDEBUG -pedantic -Wall -Wextra
 OPTFFLAGS=$(OPTFLAGS)
 DBGFFLAGS=$(DBGFLAGS) -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all
 FPUFLAGS=-ffp-contract=fast
