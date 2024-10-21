@@ -42,17 +42,23 @@ DBGFFLAGS=$(DBGFLAGS) -fcheck=all -finit-local-zero -finit-real=snan -finit-deri
 FPUFLAGS=-ffp-contract=fast
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
-LIBFLAGS=-DUSE_MKL
+LIBFLAGS=
+ifeq ($(ARCH),Linux)
+LIBFLAGS += -D_GNU_SOURCE
+endif # Linux
 ifeq ($(ABI),ilp64)
 LIBFLAGS += -DMKL_ILP64
 endif # ilp64
-LIBFLAGS += -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
-LDFLAGS=-rdynamic -static-libgcc
+LDFLAGS=-rdynamic -static-libgcc -static-libgfortran -static-libquadmath
+ifdef MKLROOT
+LIBFLAGS += -DUSE_MKL -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
 ifeq ($(ARCH),Darwin)
 LDFLAGS += -L${MKLROOT}/lib -Wl,-rpath,${MKLROOT}/lib -L${MKLROOT}/../compiler/lib -Wl,-rpath,${MKLROOT}/../compiler/lib -lmkl_intel_$(ABI) -lmkl_sequential -lmkl_core
 else # Linux
-LIBFLAGS += -D_GNU_SOURCE
 LDFLAGS += -L${MKLROOT}/lib/intel64 -Wl,-rpath=${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_gf_$(ABI) -lmkl_sequential -lmkl_core
 endif # ?Darwin
+else # !MKLROOT
+LDFLAGS += -L$(HOME)/lapack-$(ABI) -ltmglib -llapack -lrefblas
+endif # ?MKLROOT
 LDFLAGS += -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
