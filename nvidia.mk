@@ -35,5 +35,5 @@ DBGFFLAGS=$(DBGFLAGS)
 FPUFFLAGS=$(FPUFLAGS)
 endif # ?NDEBUG
 LIBFLAGS=-D_GNU_SOURCE
-LDFLAGS=-Wl,-E -static-nvidia -pgf90libs -lblas_$(ABI) -lpthread -lm -ldl $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi)
+LDFLAGS=-Wl,-E -static-nvidia -pgf90libs -lblas_$(ABI) $(shell if [ -L /usr/lib64/libmemkind.so ]; then echo '-lmemkind'; fi) -lpthread -lm -ldl
 FFLAGS=$(OPTFFLAGS) $(DBGFFLAGS) $(LIBFLAGS) $(FORFLAGS) $(FPUFFLAGS)
