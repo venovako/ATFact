@@ -62,5 +62,4 @@ clean:
 	-$(RM) *.mod
 	-$(RM) *.obj
 	-$(RM) *.optrpt
-	-$(RM) *__genmod.f90
-	-$(RM) *__genmod.mod
+	-$(RM) *.pdb
