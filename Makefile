@@ -28,34 +28,34 @@ help:
 	@echo "nmake.exe [MARCH=Host|...] [NDEBUG=d|1|2|3|...] [ABI=lp64|ilp64] [all|clean|help]"
 
 tatf.exe: tatf.obj atf.obj bio.obj Makefile
-	$(FC) $(FFLAGS) /Fe$@ tatf.obj atf.obj bio.obj $(LDFLAGS)
+	$(FC) $(FCFLAGS) /Fe$@ tatf.obj atf.obj bio.obj $(LDFLAGS)
 
 tatp.exe: tatp.obj atf.obj bio.obj Makefile
-	$(FC) $(FFLAGS) /Fe$@ tatp.obj atf.obj bio.obj $(LDFLAGS)
+	$(FC) $(FCFLAGS) /Fe$@ tatp.obj atf.obj bio.obj $(LDFLAGS)
 
 ttol.exe: ttol.obj atf.obj bio.obj Makefile
-	$(FC) $(FFLAGS) /Fe$@ ttol.obj atf.obj bio.obj $(LDFLAGS)
+	$(FC) $(FCFLAGS) /Fe$@ ttol.obj atf.obj bio.obj $(LDFLAGS)
 
 gen108.exe: gen108.obj Makefile
-	$(FC) $(FFLAGS) /Fe$@ gen108.obj $(LDFLAGS)
+	$(FC) $(FCFLAGS) /Fe$@ gen108.obj $(LDFLAGS)
 
 atf.obj atf.mod: atf.F90 Makefile
-	$(FC) $(FFLAGS) /c atf.F90
+	$(FC) $(FCFLAGS) /c atf.F90
 
 bio.obj bio.mod: bio.F90 Makefile
-	$(FC) $(FFLAGS) /c bio.F90
+	$(FC) $(FCFLAGS) /c bio.F90
 
 tatf.obj: tatf.F90 atf.mod bio.mod Makefile
-	$(FC) $(FFLAGS) /c tatf.F90
+	$(FC) $(FCFLAGS) /c tatf.F90
 
 tatp.obj: tatp.F90 atf.mod bio.mod Makefile
-	$(FC) $(FFLAGS) /c tatp.F90
+	$(FC) $(FCFLAGS) /c tatp.F90
 
 ttol.obj: ttol.F90 atf.mod bio.mod Makefile
-	$(FC) $(FFLAGS) /c ttol.F90
+	$(FC) $(FCFLAGS) /c ttol.F90
 
 gen108.obj: gen108.F90 Makefile
-	$(FC) $(FFLAGS) /c gen108.F90
+	$(FC) $(FCFLAGS) /c gen108.F90
 
 clean:
 	-$(RM) *.exe
