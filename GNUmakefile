@@ -46,7 +46,6 @@ clean:
 	-$(RM) *.mod
 	-$(RM) *.o
 	-$(RM) *.optrpt
-	-$(RM) *.opt.yaml
 	-$(RM) *__genmod.f90
 	-$(RM) *__genmod.mod
 	-$(RM) *.dSYM
