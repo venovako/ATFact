@@ -108,6 +108,6 @@ Tested on the following systems:
 
 The results with `108` dataset are identical on all systems for the generation and the rank detection, although the `F` matrices differ.
 
-Static, single-threaded Windows executables can be found [here](https://web.math.pmf.unizg.hr/~venovako/venovako.exe) or [here](https://venovako.eu/venovako.exe).
+Static, single-threaded Windows executables can be found [here](https://venovako.eu/win64/venovako.exe).
 
 This work has been supported in part by Croatian Science Foundation under the project IP-2014-09-3670 ([MFBDA](https://web.math.pmf.unizg.hr/mfbda/)).
