@@ -1,31 +1,22 @@
 RM=del /F
 AR=lib.exe
 ARFLAGS=/NOLOGO /VERBOSE
-FC=ifx.exe
-!IFNDEF MARCH
-MARCH=Host
-!ENDIF # !MARCH
-!IFNDEF NDEBUG
-NDEBUG=d
-!ENDIF # !NDEBUG
-!IFNDEF WP
-WP=16
-!ENDIF # !WP
 !IFNDEF ABI
 ABI=ilp64
 !ENDIF # !ABI
-FCFLAGS=/nologo /fpp /recursive /standard-semantics /traceback /DNDEBUG=$(NDEBUG) /DQX_WP=$(WP) /I. /MT /O$(NDEBUG) /Qx$(MARCH) /fp:precise /Qfma /Qftz- /Qprec-div /Qprotect-parens /Qopt-report:3 /Qvec-threshold:0
+!INCLUDE ..\libpvn\src\tmp.mk
+FC=$(PVN_FC)
 !IF "$(ABI)"=="ilp64"
-FCFLAGS=$(FCFLAGS) /4I8 /DMKL_ILP64 /Qmkl-ilp64:sequential
+FCFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) /4I8 /DMKL_ILP64 /Qmkl-ilp64:sequential
 !ELSE # lp64
-FCFLAGS=$(FCFLAGS) /Qmkl:sequential
+FCFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) /Qmkl:sequential
 !ENDIF # ilp64
 LDFLAGS=/link /RELEASE
 
 all: tatf.exe tatp.exe ttol.exe gen108.exe
 
 help:
-	@echo "nmake.exe [MARCH=Host|...] [NDEBUG=d|1|2|3|...] [ABI=lp64|ilp64] [all|clean|help]"
+	@echo "nmake.exe [ABI=lp64|ilp64] [all|clean|help]"
 
 tatf.exe: tatf.obj atf.obj bio.obj Makefile
 	$(FC) $(FCFLAGS) /Fe$@ tatf.obj atf.obj bio.obj $(LDFLAGS)

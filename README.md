@@ -11,7 +11,7 @@ doi:[10.1016/j.amc.2020.125263](https://doi.org/10.1016/j.amc.2020.125263 "The a
   - see `nvidia.mk` for an example of using the NVIDIA-provided BLAS,
 * a recent Fortran compiler
   - GNU, Intel, and NVIDIA compilers have been confirmed to work,
-* if not on Windows, the repository [libpvn](https://github.com/venovako/libpvn) cloned in a parallel directory to this one and built with the desired compiler.
+* the repository [libpvn](https://github.com/venovako/libpvn) cloned in a parallel directory to this one and built with the desired compiler.
 
 Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD) repository and build sub-projects `qxblas` and `tgenskew` (in that order).
 
@@ -19,7 +19,7 @@ Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD
 
 Compilation on Windows with Intel Fortran:
 ```bat
-nmake.exe NDEBUG=3 clean all
+nmake.exe clean all
 ```
 
 Compilation on Linux/macOS with GNU Fortran:
