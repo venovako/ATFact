@@ -6,15 +6,14 @@ endif # !ABI
 RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
-PVNDIR=$(realpath ../libpvn/src)
-PVNEXE=$(PVNDIR)/pvn.exe
-FC=$(shell $(PVNEXE) -F)
-FFLAGS=$(shell $(PVNEXE) -f) $(shell $(PVNEXE) -i) -DUSE_GNU -DUSE_X64
+include ../libpvn/src/tmp.mk
+FC=$(PVN_FC)
+FFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) -DUSE_GNU -DUSE_X64
 ifeq ($(ABI),ilp64)
 FFLAGS += -fdefault-integer-8 -DMKL_ILP64
 endif # ilp64
 FFLAGS += -pedantic -Wall -Wextra -Wno-compare-reals -Warray-temporaries -Wcharacter-truncation -Wimplicit-procedure -Wfunction-elimination -Wrealloc-lhs-all
-LDFLAGS=$(shell $(PVNEXE) -L)
+LDFLAGS=$(PVN_LDFLAGS)
 ifdef MKLROOT
 FFLAGS += -DUSE_MKL -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
 ifeq ($(ARCH),Darwin)
@@ -29,4 +28,4 @@ LAPACK=$(HOME)/lapack-$(ABI)
 endif # !LAPACK
 LDFLAGS += -L$(LAPACK) -ltmglib -llapack -lrefblas
 endif # ?MKLROOT
-LDFLAGS += $(shell $(PVNEXE) -l)
+LDFLAGS += $(PVN_LIBS)

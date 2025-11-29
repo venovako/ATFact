@@ -11,7 +11,7 @@ FCFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) /4I8 /DMKL_ILP64 /Qmkl-ilp64:sequential
 !ELSE # lp64
 FCFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) /Qmkl:sequential
 !ENDIF # ilp64
-LDFLAGS=/link /RELEASE
+LDFLAGS=$(PVN_LDFLAGS)
 
 all: tatf.exe tatp.exe ttol.exe gen108.exe
 
