@@ -8,9 +8,10 @@ doi:[10.1016/j.amc.2020.125263](https://doi.org/10.1016/j.amc.2020.125263 "The a
 ## Prerequisites
 
 * Intel Math Kernel Library (MKL), or another [BLAS](https://netlib.org/blas/) library (with some tweaking of the corresponding makefile required)
-  - see `nvidia.mk` for an example of using the NVIDIA-provided BLAS
+  - see `nvidia.mk` for an example of using the NVIDIA-provided BLAS,
 * a recent Fortran compiler
-  - GNU, Intel, and NVIDIA compilers have been confirmed to work
+  - GNU, Intel, and NVIDIA compilers have been confirmed to work,
+* if not on Windows, the repository [libpvn](https://github.com/venovako/libpvn) cloned in a parallel directory to this one and built with the desired compiler.
 
 Optionally, for data generation, clone [JACSD](https://github.com/venovako/JACSD) repository and build sub-projects `qxblas` and `tgenskew` (in that order).
 
@@ -23,22 +24,17 @@ nmake.exe NDEBUG=3 clean all
 
 Compilation on Linux/macOS with GNU Fortran:
 ```bash
-make NDEBUG=3 clean all
+make clean all
 ```
 
 Compilation on Linux with Intel Fortran:
 ```bash
-make COMPILER=x64x NDEBUG=3 clean all
-```
-
-Compilation on Intel Xeon Phi (x200) with Intel Fortran:
-```bash
-make COMPILER=x200 NDEBUG=3 clean all
+make COMPILER=x64 clean all
 ```
 
 Compilation on Linux with NVIDIA Fortran:
 ```bash
-make COMPILER=nvidia NDEBUG=4 clean all
+make COMPILER=nvidia clean all
 ```
 
 ## Data

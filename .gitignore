@@ -38,3 +38,4 @@
 *.opt.yaml
 *.pdb
 *__genmod.*
+tmp
