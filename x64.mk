@@ -6,7 +6,7 @@ endif # !ABI
 RM=rm -rfv
 AR=ar
 ARFLAGS=rsv
-include ../libpvn/src/tmp.mk
+include ../libpvn/src/pvn.mk
 FC=$(PVN_FC)
 FFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) -DUSE_INTEL -DUSE_X64 -DUSE_MKL -I${MKLROOT}/include/intel64/$(ABI) -I${MKLROOT}/include
 ifeq ($(ABI),ilp64)

@@ -4,7 +4,7 @@ ARFLAGS=/NOLOGO /VERBOSE
 !IFNDEF ABI
 ABI=ilp64
 !ENDIF # !ABI
-!INCLUDE ..\libpvn\src\tmp.mk
+!INCLUDE ..\libpvn\src\pvn.mk
 FC=$(PVN_FC)
 !IF "$(ABI)"=="ilp64"
 FCFLAGS=$(PVN_FCFLAGS) $(PVN_CPPFLAGS) /4I8 /DMKL_ILP64 /Qmkl-ilp64:sequential
