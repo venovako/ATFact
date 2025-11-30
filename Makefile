@@ -2,7 +2,7 @@ RM=del /F
 AR=lib.exe
 ARFLAGS=/NOLOGO /VERBOSE
 !IFNDEF ABI
-ABI=ilp64
+ABI=lp64
 !ENDIF # !ABI
 !INCLUDE ..\libpvn\src\pvn.mk
 FC=$(PVN_FC)
